@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -55,31 +54,7 @@ namespace DocumentDbSchema
                 jsonProperty.Required = Required.DisallowNull;
             }
 
-            IgnoreEmptyCollections(jsonProperty);
-
             return jsonProperty;
-        }
-
-        private static void IgnoreEmptyCollections(JsonProperty jsonProperty)
-        {
-            if (typeof(ICollection).IsAssignableFrom(jsonProperty.PropertyType))
-            {
-                var oldShouldSerialize = jsonProperty.ShouldSerialize;
-                jsonProperty.ShouldSerialize = obj =>
-                {
-                    if (oldShouldSerialize != null && !oldShouldSerialize(obj))
-                    {
-                        return false;
-                    }
-
-                    if (!(jsonProperty.ValueProvider.GetValue(obj) is ICollection collection))
-                    {
-                        return false;
-                    }
-
-                    return collection == null || collection.Count != 0;
-                };
-            }
         }
 
         private static bool HasPublicGetter(PropertyInfo property)
