@@ -10,7 +10,7 @@ namespace DocumentDbSchema
 {
     public class DocumentCollectionContractResolver : CamelCasePropertyNamesContractResolver
     {
-        private IList<string> _propertiesToIgnore = new[] {
+        private static IList<string> PropertiesToIgnore = new[] {
             nameof(Resource.ResourceId),
             nameof(Resource.ETag),
             nameof(Resource.AltLink),
@@ -20,7 +20,7 @@ namespace DocumentDbSchema
             nameof(DocumentCollection.DefaultTimeToLive)
         };
 
-        private IList<string> _requiredProperties = new[] {
+        private static IList<string> RequiredProperties = new[] {
             nameof(Resource.Id)
         };
 
@@ -36,9 +36,8 @@ namespace DocumentDbSchema
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             if (!(member is PropertyInfo property) ||
-                !HasPublicGetter(property) ||
-                _propertiesToIgnore.Contains(property.Name)
-                )
+                ShouldIgnoreProperty(property) ||
+                !HasPublicGetter(property))
             {
                 return null;
             }
@@ -57,19 +56,10 @@ namespace DocumentDbSchema
             return jsonProperty;
         }
 
-        private static bool HasPublicGetter(PropertyInfo property)
-        {
-            return property.GetGetMethod() != null;
-        }
+        private static bool HasPublicGetter(PropertyInfo property) => property.GetGetMethod() != null;
 
-        private static bool HasPublicSetter(PropertyInfo property)
-        {
-            return property.GetSetMethod() != null;
-        }
+        private static bool IsRequiredProperty(PropertyInfo property) => RequiredProperties.Contains(property.Name);
 
-        private bool IsRequiredProperty(PropertyInfo property)
-        {
-            return _requiredProperties.Contains(property.Name);
-        }
+        private static bool ShouldIgnoreProperty(PropertyInfo property) => PropertiesToIgnore.Contains(property.Name);
     }
 }
