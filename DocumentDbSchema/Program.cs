@@ -30,6 +30,8 @@ namespace DocumentDbSchema
 
         private static void Main()
         {
+            // Call: dotnet user-secrets set AuthKey YOUR_AUTH_KEY
+
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
