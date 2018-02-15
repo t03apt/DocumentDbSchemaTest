@@ -1,5 +1,5 @@
 ﻿{
-  "id": "testcoll",
+  "id": "testcoll2",
   "indexingPolicy": {
     "automatic": true,
     "indexingMode": "Consistent",

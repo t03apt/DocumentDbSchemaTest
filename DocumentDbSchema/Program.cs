@@ -1,7 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
@@ -11,11 +15,30 @@ namespace DocumentDbSchema
 {
     class Program
     {
-        static void Main(string[] args)
+        private static string CosmoDbEndpoint => GetConfigValue();
+        private static string AuthKey => GetConfigValue();
+        private static string DatabaseId => GetConfigValue();
+
+        private static string GetConfigValue([CallerMemberName] string settingsKey = null) => Configuration[settingsKey];
+
+        private static IConfigurationRoot Configuration { get; set; }
+
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
-            JSchemaGenerator generator = new JSchemaGenerator
+            ContractResolver = new DocumentCollectionContractResolver()
+        };
+
+        private static void Main()
+        {
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddUserSecrets<Program>()
+                .Build();
+
+            var generator = new JSchemaGenerator
             {
-                ContractResolver = new DocumentCollectionContractResolver(),
+                ContractResolver = new DocumentCollectionContractResolver()
             };
 
             generator.GenerationProviders.Add(new StringEnumGenerationProvider());
@@ -24,27 +47,26 @@ namespace DocumentDbSchema
 
             Console.WriteLine(schema.ToString());
 
-            //File.WriteAllText(@"C:\temp\collection-schema.json", schema.ToString());
+            File.WriteAllText(@"C:\temp\collection-schema.json", schema.ToString());
 
-            //TestSchema();
+            CreateCollection().Wait();
+
+            Console.WriteLine("OK");
         }
 
-        private static void TestSchema()
+        private static async Task<DocumentCollection> CreateCollection()
         {
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new DocumentCollectionContractResolver()
-            };
+            var sampleCollection = GetSampleCollection();
+            var client = new DocumentClient(new Uri(CosmoDbEndpoint), AuthKey);
 
-            var sample = GetSampleCollectionJson();
-            var collection = JsonConvert.DeserializeObject<DocumentCollection>(sample, serializerSettings);
+            var database = new Database { Id = DatabaseId };
 
-            var collectionAsJson = JsonConvert.SerializeObject(collection, serializerSettings);
+            database = await client.CreateDatabaseIfNotExistsAsync(database);
+            return await client.CreateDocumentCollectionIfNotExistsAsync(database, sampleCollection);
+        }
 
-            //File.WriteAllText(@"C:\temp\sample.txt", $"{collectionAsJson}{Environment.NewLine}{sample}");
-
-            Console.WriteLine(collectionAsJson == sample);
-
+        private static DocumentCollection GetSampleCollection()
+        {
             string GetSampleCollectionJson()
             {
                 var assembly = typeof(Program).Assembly;
@@ -52,8 +74,8 @@ namespace DocumentDbSchema
 
                 string data;
 
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
+                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                using (var reader = new StreamReader(stream))
                 {
                     data = reader.ReadToEnd();
                 }
@@ -71,7 +93,7 @@ namespace DocumentDbSchema
 
                     props.OrderBy(p => p.Name).ToList().ForEach(jObj.Add);
 
-                    var values = props.Select(o => o.Value);
+                    var values = props.Select(o => o.Value).ToList();
 
                     var innerProps = values.OfType<JObject>()
                         .Union(values.OfType<JArray>().SelectMany(o => o.Children()).OfType<JObject>())
@@ -80,6 +102,10 @@ namespace DocumentDbSchema
                     innerProps.ForEach(SortProperties);
                 }
             }
+
+            var sample = GetSampleCollectionJson();
+            var collection = JsonConvert.DeserializeObject<DocumentCollection>(sample, SerializerSettings);
+            return collection;
         }
     }
 }
