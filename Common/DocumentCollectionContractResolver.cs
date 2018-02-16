@@ -6,11 +6,11 @@ using Microsoft.Azure.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace DocumentDbSchema
+namespace Common
 {
     public class DocumentCollectionContractResolver : CamelCasePropertyNamesContractResolver
     {
-        private static IList<string> PropertiesToIgnore = new[] {
+        private static readonly IList<string> PropertiesToIgnore = new[] {
             nameof(Resource.ResourceId),
             nameof(Resource.ETag),
             nameof(Resource.AltLink),
@@ -20,7 +20,7 @@ namespace DocumentDbSchema
             nameof(DocumentCollection.DefaultTimeToLive)
         };
 
-        private static IList<string> RequiredProperties = new[] {
+        private static readonly IList<string> RequiredProperties = new[] {
             nameof(Resource.Id)
         };
 

@@ -1,0 +1,29 @@
+﻿{
+  "id": "ToDoList2",
+  "collections": [
+    {
+      "id": "TestCollection1",
+      "indexingPolicy": {
+        "automatic": true,
+        "indexingMode": "Consistent",
+        "includedPaths": [
+          {
+            "path": "/*",
+            "indexes": [
+              {
+                "dataType": "String",
+                "precision": -1,
+                "kind": "Range"
+              }
+            ]
+          }
+        ]
+      },
+      "partitionKey": {
+        "paths": [
+          "/AccountNumber"
+        ]
+      }
+    }
+  ]
+}
