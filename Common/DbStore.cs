@@ -7,7 +7,7 @@ using Microsoft.Azure.Documents.Client;
 
 namespace Experimental.Tools.CosmoDb.Common
 {
-    public class DbStore : IDisposable
+    public sealed class DbStore : IDisposable
     {
         private readonly DocumentClient _client;
 
@@ -20,17 +20,17 @@ namespace Experimental.Tools.CosmoDb.Common
         {
             var database = new Database { Id = databaseInfo.Id };
 
-            database = await _client.CreateDatabaseIfNotExistsAsync(database);
+            database = await _client.CreateDatabaseIfNotExistsAsync(database).ConfigureAwait(false);
 
             foreach (var collection in databaseInfo.Collections)
             {
-                await _client.CreateDocumentCollectionIfNotExistsAsync(database, collection);
+                await _client.CreateDocumentCollectionIfNotExistsAsync(database, collection).ConfigureAwait(false);
             }
         }
 
         public async Task<IList<Database>> GetDatabases()
         {
-            var feed = await _client.ReadDatabaseFeedAsync();
+            var feed = await _client.ReadDatabaseFeedAsync().ConfigureAwait(false);
             return feed.ToList();
         }
 

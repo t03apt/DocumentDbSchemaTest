@@ -10,9 +10,11 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
     {
         private readonly IDbStoreFactory _dbStoreFactory;
 
-        public ListDatabasesCommand() : this(
+        public ListDatabasesCommand()
+            : this(
             Container.GetService<IDbStoreFactory>())
-        { }
+        {
+        }
 
         public ListDatabasesCommand(IDbStoreFactory dbStoreFactory)
         {
@@ -23,7 +25,7 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
         {
             using (var dbStore = _dbStoreFactory.Create(Url, AuthKey))
             {
-                var databases = await dbStore.GetDatabases();
+                var databases = await dbStore.GetDatabases().ConfigureAwait(false);
                 foreach (var database in databases)
                 {
                     console.WriteLine(database.Id);
@@ -32,6 +34,5 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
 
             return ExitCodes.Ok;
         }
-
     }
 }

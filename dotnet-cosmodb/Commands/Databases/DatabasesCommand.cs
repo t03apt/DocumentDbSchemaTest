@@ -4,7 +4,8 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
 {
-    [Command, HelpOption]
+    [Command]
+    [HelpOption]
     [Subcommand("new", typeof(NewDbCommand))]
     [Subcommand("list", typeof(ListDatabasesCommand))]
     [Subcommand("export-json-schema", typeof(ExportJsonSchemaCommand))]

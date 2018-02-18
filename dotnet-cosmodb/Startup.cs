@@ -9,21 +9,22 @@ using Serilog.Events;
 
 namespace Experimental.Tools.CosmoDb.Cli
 {
-    [Command(ThrowOnUnexpectedArgument = false), HelpOption]
+    [Command(ThrowOnUnexpectedArgument = false)]
+    [HelpOption]
     internal class Startup : ICommand
     {
-        [Option(ShortName = "ll", LongName = "loglevel", Description = "Log level. Default:Warning. Possible values:" + LogLevelValues)]
-        public string LogLevel { get; set; } = LogEventLevel.Warning.ToString();
-
-        private static string[] _args;
-
-        private const string LogLevelValues = 
+        private const string LogLevelValues =
             nameof(LogEventLevel.Verbose) + "|" +
             nameof(LogEventLevel.Debug) + "|" +
             nameof(LogEventLevel.Warning) + "|" +
             nameof(LogEventLevel.Information) + "|" +
             nameof(LogEventLevel.Error) + "|" +
             nameof(LogEventLevel.Fatal);
+
+        private static string[] _args;
+
+        [Option(ShortName = "ll", LongName = "loglevel", Description = "Log level. Default:Warning. Possible values:" + LogLevelValues)]
+        public string LogLevel { get; set; } = LogEventLevel.Warning.ToString();
 
         public static int Main(string[] args)
         {
@@ -35,7 +36,7 @@ namespace Experimental.Tools.CosmoDb.Cli
         {
             if (!Enum.TryParse<LogEventLevel>(LogLevel, out var logLevel))
             {
-                throw new ArgumentOutOfRangeException(nameof(LogLevel), LogLevel, null);
+                throw new InvalidOperationException($"Invalid {LogLevel}. Possible values:" + LogLevelValues);
             }
 
             var levelSwitch = new LoggingLevelSwitch(logLevel);
@@ -46,7 +47,7 @@ namespace Experimental.Tools.CosmoDb.Cli
             try
             {
                 Container.Build(logger);
-                return await CommandLineApplication.ExecuteAsync<RootCommand>(_args);
+                return await CommandLineApplication.ExecuteAsync<RootCommand>(_args).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

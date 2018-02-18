@@ -12,14 +12,12 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
         private readonly FileWriter _fileWriter;
         private readonly SchemaGenerator _schemaGenerator;
 
-        [Required]
-        [Option(LongName = "file", Description = "Target file path")]
-        public string FilePath { get; set; }
-
-        public ExportJsonSchemaCommand() : this(
+        public ExportJsonSchemaCommand()
+            : this(
             Container.GetService<FileWriter>(),
             Container.GetService<SchemaGenerator>())
-        { }
+        {
+        }
 
         public ExportJsonSchemaCommand(FileWriter fileWriter, SchemaGenerator schemaGenerator)
         {
@@ -27,10 +25,14 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
             _schemaGenerator = schemaGenerator ?? throw new ArgumentNullException(nameof(schemaGenerator));
         }
 
+        [Required]
+        [Option(LongName = "file", Description = "Target file path")]
+        public string FilePath { get; set; }
+
         public Task<int> OnExecute(CommandLineApplication app, IConsole console)
         {
             var schema = _schemaGenerator.GenerateSchema();
-            _fileWriter.SaveToFile(FilePath,schema.ToString());
+            _fileWriter.SaveToFile(FilePath, schema.ToString());
             return Task.FromResult(ExitCodes.Ok);
         }
     }

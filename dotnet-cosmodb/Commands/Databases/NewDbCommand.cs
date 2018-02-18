@@ -14,25 +14,27 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
         private readonly FileReader _fileReader;
         private readonly IDbStoreFactory _dbStoreFactory;
 
-        [Required]
-        [Option(LongName = "file", Description = "Data file")]
-        public string FilePath { get; set; }
-
-        public NewDbCommand() : this(
+        public NewDbCommand()
+            : this(
             Container.GetService<DbInfoParser>(),
             Container.GetService<FileReader>(),
             Container.GetService<IDbStoreFactory>())
-        { }
+        {
+        }
 
         public NewDbCommand(
             DbInfoParser dbInfoParser,
             FileReader fileReader,
             IDbStoreFactory dbStoreFactory)
         {
-            _dbInfoParser = dbInfoParser ?? throw new ArgumentException(nameof(dbInfoParser));
-            _fileReader = fileReader ?? throw new ArgumentException(nameof(fileReader));
+            _dbInfoParser = dbInfoParser ?? throw new ArgumentNullException(nameof(dbInfoParser));
+            _fileReader = fileReader ?? throw new ArgumentNullException(nameof(fileReader));
             _dbStoreFactory = dbStoreFactory ?? throw new ArgumentNullException(nameof(dbStoreFactory));
         }
+
+        [Required]
+        [Option(LongName = "file", Description = "Data file")]
+        public string FilePath { get; set; }
 
         public async Task<int> OnExecute(CommandLineApplication app, IConsole console)
         {
@@ -41,7 +43,7 @@ namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
 
             using (var dbStore = _dbStoreFactory.Create(Url, AuthKey))
             {
-                await dbStore.CreateDatabaseAsync(dbInfo);
+                await dbStore.CreateDatabaseAsync(dbInfo).ConfigureAwait(false);
             }
 
             return ExitCodes.Ok;

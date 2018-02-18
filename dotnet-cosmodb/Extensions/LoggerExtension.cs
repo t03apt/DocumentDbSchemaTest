@@ -7,7 +7,7 @@ namespace Experimental.Tools.CosmoDb.Cli.Extensions
     {
         private const string GenericErrorMessage = "Error";
 
-        public static void LogException(this ILogger logger, Exception ex) 
+        public static void LogException(this ILogger logger, Exception ex)
             => logger.Error(ex, GenericErrorMessage);
 
         public static void Fatal(this ILogger logger, Exception ex)

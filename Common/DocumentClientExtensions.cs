@@ -9,10 +9,17 @@ namespace Experimental.Tools.CosmoDb.Common
     {
         public static async Task<ResourceResponse<DocumentCollection>> CreateDocumentCollectionIfNotExistsAsync(this DocumentClient client, Database database, DocumentCollection collection)
         {
-            if (database == null) throw new ArgumentException(nameof(database));
-            if (collection == null) throw new ArgumentException(nameof(collection));
+            if (database == null)
+            {
+                throw new ArgumentNullException(nameof(database));
+            }
 
-            return await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(database.Id), collection);
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            return await client.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(database.Id), collection).ConfigureAwait(false);
         }
     }
 }
