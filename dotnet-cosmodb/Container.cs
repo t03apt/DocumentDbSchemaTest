@@ -1,9 +1,9 @@
-﻿using Common;
-using Itron.Tools.CosmoDb.Cli.Services;
+﻿using Experimental.Tools.CosmoDb.Cli.Services;
+using Experimental.Tools.CosmoDb.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Itron.Tools.CosmoDb.Cli
+namespace Experimental.Tools.CosmoDb.Cli
 {
     internal sealed class Container
     {

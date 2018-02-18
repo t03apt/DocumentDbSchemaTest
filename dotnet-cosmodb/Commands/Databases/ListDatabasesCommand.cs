@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Itron.Tools.CosmoDb.Cli.Services;
+using Experimental.Tools.CosmoDb.Cli.Services;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Itron.Tools.CosmoDb.Cli.Commands.Databases
+namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
 {
     [Command]
     internal class ListDatabasesCommand : CosmoDbBaseCommand, ICommand

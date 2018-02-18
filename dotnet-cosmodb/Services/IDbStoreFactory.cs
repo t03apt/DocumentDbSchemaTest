@@ -1,6 +1,6 @@
-﻿using Common;
+﻿using Experimental.Tools.CosmoDb.Common;
 
-namespace Itron.Tools.CosmoDb.Cli.Services
+namespace Experimental.Tools.CosmoDb.Cli.Services
 {
     internal interface IDbStoreFactory
     {

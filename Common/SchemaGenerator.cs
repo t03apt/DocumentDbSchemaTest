@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 
-namespace Common
+namespace Experimental.Tools.CosmoDb.Common
 {
     public class SchemaGenerator
     {

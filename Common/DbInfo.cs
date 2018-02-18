@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Azure.Documents;
 
-namespace Common
+namespace Experimental.Tools.CosmoDb.Common
 {
     public class DbInfo
     {

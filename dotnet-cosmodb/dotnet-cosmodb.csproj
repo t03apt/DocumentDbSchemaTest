@@ -4,8 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>dotnet-cosmodb</AssemblyName>
-    <RootNamespace>Itron.Tools.CosmoDb.Cli</RootNamespace>
-    <PackageId>Itron.Tools.CosmoDb.Cli</PackageId>
+    <RootNamespace>Experimental.Tools.CosmoDb.Cli</RootNamespace>
+    <PackageId>Experimental.Tools.CosmoDb.Cli</PackageId>
     <PackageType>DotnetCliTool</PackageType>
   </PropertyGroup>
 

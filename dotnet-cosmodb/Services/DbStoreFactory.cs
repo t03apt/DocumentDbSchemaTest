@@ -1,8 +1,8 @@
 ﻿using System;
-using Common;
+using Experimental.Tools.CosmoDb.Common;
 using Microsoft.Azure.Documents.Client;
 
-namespace Itron.Tools.CosmoDb.Cli.Services
+namespace Experimental.Tools.CosmoDb.Cli.Services
 {
     internal class DbStoreFactory : IDbStoreFactory
     {

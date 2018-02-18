@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Common;
-using Itron.Tools.CosmoDb.Cli.Services;
+using Experimental.Tools.CosmoDb.Cli.Services;
+using Experimental.Tools.CosmoDb.Common;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Itron.Tools.CosmoDb.Cli.Commands.Databases
+namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
 {
     [Command]
     internal class NewDbCommand : CosmoDbBaseCommand, ICommand

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Itron.Tools.CosmoDb.Cli.Extensions
+namespace Experimental.Tools.CosmoDb.Cli.Extensions
 {
     internal static class CommandExtensions
     {

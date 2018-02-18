@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 
-namespace Common
+namespace Experimental.Tools.CosmoDb.Common
 {
     public class DbStore : IDisposable
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Itron.Tools.CosmoDb.Cli.Commands;
-using Itron.Tools.CosmoDb.Cli.Extensions;
+using Experimental.Tools.CosmoDb.Cli.Commands;
+using Experimental.Tools.CosmoDb.Cli.Extensions;
 using McMaster.Extensions.CommandLineUtils;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 
-namespace Itron.Tools.CosmoDb.Cli
+namespace Experimental.Tools.CosmoDb.Cli
 {
     [Command(ThrowOnUnexpectedArgument = false), HelpOption]
     internal class Startup : ICommand

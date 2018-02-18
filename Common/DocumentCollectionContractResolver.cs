@@ -6,7 +6,7 @@ using Microsoft.Azure.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Common
+namespace Experimental.Tools.CosmoDb.Common
 {
     public class DocumentCollectionContractResolver : CamelCasePropertyNamesContractResolver
     {

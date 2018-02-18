@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using Common;
+using Experimental.Tools.CosmoDb.Common;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Schema;

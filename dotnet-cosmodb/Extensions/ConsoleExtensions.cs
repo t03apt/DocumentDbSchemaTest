@@ -1,6 +1,6 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 
-namespace Itron.Tools.CosmoDb.Cli.Extensions
+namespace Experimental.Tools.CosmoDb.Cli.Extensions
 {
     public static class ConsoleExtensions
     {

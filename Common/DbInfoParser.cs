@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Common
+namespace Experimental.Tools.CosmoDb.Common
 {
     public class DbInfoParser
     {

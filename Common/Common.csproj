@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Experimental.Tools.CosmoDb.Common</RootNamespace>
+    <AssemblyName>Experimental.Tools.CosmoDb.Common</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

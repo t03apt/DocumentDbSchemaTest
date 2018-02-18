@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Itron.Tools.CosmoDb.Cli
+namespace Experimental.Tools.CosmoDb.Cli
 {
     internal interface ICommand
     {

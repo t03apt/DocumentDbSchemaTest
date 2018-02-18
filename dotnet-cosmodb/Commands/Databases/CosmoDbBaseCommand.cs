@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace Itron.Tools.CosmoDb.Cli.Commands.Databases
+namespace Experimental.Tools.CosmoDb.Cli.Commands.Databases
 {
     internal abstract class CosmoDbBaseCommand
     {

@@ -1,4 +1,4 @@
-﻿namespace Itron.Tools.CosmoDb.Cli
+﻿namespace Experimental.Tools.CosmoDb.Cli
 {
     internal static class ExitCodes
     {
