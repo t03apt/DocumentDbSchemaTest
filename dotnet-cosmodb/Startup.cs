@@ -1,4 +1,7 @@
-﻿using Itron.Tools.CosmoDb.Cli.Commands;
+﻿using System;
+using System.Threading.Tasks;
+using Itron.Tools.CosmoDb.Cli.Commands;
+using Itron.Tools.CosmoDb.Cli.Extensions;
 using McMaster.Extensions.CommandLineUtils;
 using Serilog;
 using Serilog.Core;
@@ -7,7 +10,7 @@ using Serilog.Events;
 namespace Itron.Tools.CosmoDb.Cli
 {
     [Command(ThrowOnUnexpectedArgument = false), HelpOption]
-    internal class Startup : ICommand
+    internal class Startup : IAsyncCommand
     {
         [Option(ShortName = "ll", LongName = "loglevel", Description = "The image for the new container")]
         public LogEventLevel LogLevel { get; set; } = LogEventLevel.Warning;
@@ -17,19 +20,26 @@ namespace Itron.Tools.CosmoDb.Cli
         public static int Main(string[] args)
         {
             _args = args;
-            return CommandLineApplication.Execute<Startup>(args);
+            return CommandLineApplication.ExecuteAsync<Startup>(args).Result;
         }
 
-        public int OnExecute()
+        public async Task<int> OnExecute()
         {
             var levelSwitch = new LoggingLevelSwitch(LogLevel);
             var logger = new LoggerConfiguration()
                 .MinimumLevel.ControlledBy(levelSwitch)
                 .WriteTo.Console(standardErrorFromLevel: LogEventLevel.Verbose).CreateLogger();
 
-            Container.Build(logger);
-
-            return CommandLineApplication.Execute<App>(_args);
+            try
+            {
+                Container.Build(logger);
+                return await CommandLineApplication.ExecuteAsync<App>(_args);
+            }
+            catch (Exception ex)
+            {
+                logger.Fatal(ex);
+                return ExitCodes.Error;
+            }
         }
     }
 }
