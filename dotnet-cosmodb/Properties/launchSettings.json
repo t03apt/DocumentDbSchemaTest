@@ -11,6 +11,14 @@
     "databases": {
       "commandName": "Project",
       "commandLineArgs": "databases"
+    },
+    "empty": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    },
+    "help": {
+      "commandName": "Project",
+      "commandLineArgs": "-?"
     }
   }
 }

@@ -12,10 +12,18 @@ namespace Itron.Tools.CosmoDb.Cli
     [Command(ThrowOnUnexpectedArgument = false), HelpOption]
     internal class Startup : ICommand
     {
-        [Option(ShortName = "ll", LongName = "loglevel", Description = "The image for the new container")]
-        public LogEventLevel LogLevel { get; set; } = LogEventLevel.Warning;
+        [Option(ShortName = "ll", LongName = "loglevel", Description = "Log level. Default:Warning. Possible values:" + LogLevelValues)]
+        public string LogLevel { get; set; } = LogEventLevel.Warning.ToString();
 
         private static string[] _args;
+
+        private const string LogLevelValues = 
+            nameof(LogEventLevel.Verbose) + "|" +
+            nameof(LogEventLevel.Debug) + "|" +
+            nameof(LogEventLevel.Warning) + "|" +
+            nameof(LogEventLevel.Information) + "|" +
+            nameof(LogEventLevel.Error) + "|" +
+            nameof(LogEventLevel.Fatal);
 
         public static int Main(string[] args)
         {
@@ -25,7 +33,12 @@ namespace Itron.Tools.CosmoDb.Cli
 
         public async Task<int> OnExecute(CommandLineApplication app, IConsole console)
         {
-            var levelSwitch = new LoggingLevelSwitch(LogLevel);
+            if (!Enum.TryParse<LogEventLevel>(LogLevel, out var logLevel))
+            {
+                throw new ArgumentOutOfRangeException(nameof(LogLevel), LogLevel, null);
+            }
+
+            var levelSwitch = new LoggingLevelSwitch(logLevel);
             var logger = new LoggerConfiguration()
                 .MinimumLevel.ControlledBy(levelSwitch)
                 .WriteTo.Console(standardErrorFromLevel: LogEventLevel.Verbose).CreateLogger();
