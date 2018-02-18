@@ -33,7 +33,7 @@ namespace Itron.Tools.CosmoDb.Cli
             try
             {
                 Container.Build(logger);
-                return await CommandLineApplication.ExecuteAsync<App>(_args);
+                return await CommandLineApplication.ExecuteAsync<RootCommand>(_args);
             }
             catch (Exception ex)
             {
