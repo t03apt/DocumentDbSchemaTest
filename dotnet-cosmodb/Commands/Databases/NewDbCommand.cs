@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Common;
 using Itron.Tools.CosmoDb.Cli.Services;
 using McMaster.Extensions.CommandLineUtils;
-using Microsoft.Azure.Documents.Client;
 
 namespace Itron.Tools.CosmoDb.Cli.Commands.Databases
 {
