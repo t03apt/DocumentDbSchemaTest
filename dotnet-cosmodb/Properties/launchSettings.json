@@ -19,6 +19,10 @@
     "help": {
       "commandName": "Project",
       "commandLineArgs": "-?"
+    },
+    "export-json-schema": {
+      "commandName": "Project",
+      "commandLineArgs": "databases export-json-schema --file \"c:\\Temp\\db-schema.json\""
     }
   }
 }

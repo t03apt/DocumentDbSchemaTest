@@ -8,7 +8,9 @@ namespace Experimental.Tools.CosmoDb.Common
         {
             serviceCollection
                 .AddSingleton<DbInfoParser>()
-                .AddSingleton<FileReader>();
+                .AddSingleton<FileReader>()
+                .AddSingleton<FileWriter>()
+                .AddSingleton<SchemaGenerator>();
 
             return serviceCollection;
         }
