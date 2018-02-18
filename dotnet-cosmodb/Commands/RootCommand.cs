@@ -1,8 +1,10 @@
-﻿using McMaster.Extensions.CommandLineUtils;
+﻿using Itron.Tools.CosmoDb.Cli.Commands.Databases;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace Itron.Tools.CosmoDb.Cli.Commands
 {
-    [Subcommand("new-db", typeof(NewDbCommand))]
+    [Command]
+    [Subcommand("databases", typeof(DatabasesCommand))]
     public class RootCommand
     {
     }

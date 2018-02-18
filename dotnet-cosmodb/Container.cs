@@ -1,6 +1,5 @@
-﻿using System;
-using Common;
-using Itron.Tools.CosmoDb.Cli.Commands;
+﻿using Common;
+using Itron.Tools.CosmoDb.Cli.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -16,8 +15,8 @@ namespace Itron.Tools.CosmoDb.Cli
         {
             var serviceCollection = new ServiceCollection()
                 .RegisterCommonServices()
-                .AddSingleton<NewDbCommand>()
-                .AddScoped<ILogger>(_ => logger);
+                .AddSingleton<IDbStoreFactory, DbStoreFactory>()
+                .AddScoped(_ => logger);
 
             _provider = serviceCollection.BuildServiceProvider();
         }

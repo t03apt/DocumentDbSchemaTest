@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -24,6 +26,12 @@ namespace Common
             {
                 await _client.CreateDocumentCollectionIfNotExistsAsync(database, collection);
             }
+        }
+
+        public async Task<IList<Database>> GetDatabases()
+        {
+            var feed = await _client.ReadDatabaseFeedAsync();
+            return feed.ToList();
         }
 
         public void Dispose()

@@ -10,7 +10,7 @@ using Serilog.Events;
 namespace Itron.Tools.CosmoDb.Cli
 {
     [Command(ThrowOnUnexpectedArgument = false), HelpOption]
-    internal class Startup : IAsyncCommand
+    internal class Startup : ICommand
     {
         [Option(ShortName = "ll", LongName = "loglevel", Description = "The image for the new container")]
         public LogEventLevel LogLevel { get; set; } = LogEventLevel.Warning;
@@ -23,7 +23,7 @@ namespace Itron.Tools.CosmoDb.Cli
             return CommandLineApplication.ExecuteAsync<Startup>(args).Result;
         }
 
-        public async Task<int> OnExecute()
+        public async Task<int> OnExecute(CommandLineApplication app, IConsole console)
         {
             var levelSwitch = new LoggingLevelSwitch(LogLevel);
             var logger = new LoggerConfiguration()

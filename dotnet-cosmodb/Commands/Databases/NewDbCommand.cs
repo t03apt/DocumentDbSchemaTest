@@ -2,48 +2,45 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Common;
+using Itron.Tools.CosmoDb.Cli.Services;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Azure.Documents.Client;
 
-namespace Itron.Tools.CosmoDb.Cli.Commands
+namespace Itron.Tools.CosmoDb.Cli.Commands.Databases
 {
     [Command]
-    internal class NewDbCommand: IAsyncCommand
+    internal class NewDbCommand : CosmoDbBaseCommand, ICommand
     {
         private readonly DbInfoParser _dbInfoParser;
         private readonly FileReader _fileReader;
+        private readonly IDbStoreFactory _dbStoreFactory;
 
         [Required]
         [Option(LongName = "file", Description = "Data file")]
         public string FilePath { get; set; }
 
-        [Required]
-        [Option(LongName = "url", Description = "CosmoDB endpoint")]
-        public string Url { get; set; }
-
-        [Required]
-        [Option(LongName = "authKey", Description = "CosmoDB authentication key")]
-        public string AuthKey { get; set; }
-
-        public NewDbCommand() : this (
+        public NewDbCommand() : this(
             Container.GetService<DbInfoParser>(),
-            Container.GetService<FileReader>())
+            Container.GetService<FileReader>(),
+            Container.GetService<IDbStoreFactory>())
         { }
 
         public NewDbCommand(
             DbInfoParser dbInfoParser,
-            FileReader fileReader)
+            FileReader fileReader,
+            IDbStoreFactory dbStoreFactory)
         {
             _dbInfoParser = dbInfoParser ?? throw new ArgumentException(nameof(dbInfoParser));
             _fileReader = fileReader ?? throw new ArgumentException(nameof(fileReader));
+            _dbStoreFactory = dbStoreFactory ?? throw new ArgumentNullException(nameof(dbStoreFactory));
         }
 
-        public async Task<int> OnExecute()
+        public async Task<int> OnExecute(CommandLineApplication app, IConsole console)
         {
             var json = _fileReader.ReadAll(FilePath);
             var dbInfo = _dbInfoParser.Parse(json);
 
-            using (var dbStore = new DbStore(new DocumentClient(new Uri(Url), AuthKey)))
+            using (var dbStore = _dbStoreFactory.Create(Url, AuthKey))
             {
                 await dbStore.CreateDatabaseAsync(dbInfo);
             }
