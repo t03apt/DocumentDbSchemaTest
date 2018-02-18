@@ -9,9 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentDbTools", "DocumentDbTools\DocumentDbTools.csproj", "{A81F147E-6477-4464-9243-90E0E04EF6B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentDbTools", "DocumentDbTools\DocumentDbTools.csproj", "{A81F147E-6477-4464-9243-90E0E04EF6B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{BEA4E002-725D-4FEE-8C8D-7587760EA4DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{BEA4E002-725D-4FEE-8C8D-7587760EA4DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-cosmodb", "dotnet-cosmodb\dotnet-cosmodb.csproj", "{E0A1D5FA-CD20-46DA-98D4-337A280F9F7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BEA4E002-725D-4FEE-8C8D-7587760EA4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEA4E002-725D-4FEE-8C8D-7587760EA4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEA4E002-725D-4FEE-8C8D-7587760EA4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0A1D5FA-CD20-46DA-98D4-337A280F9F7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0A1D5FA-CD20-46DA-98D4-337A280F9F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0A1D5FA-CD20-46DA-98D4-337A280F9F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0A1D5FA-CD20-46DA-98D4-337A280F9F7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,7 +3,7 @@ using Microsoft.Azure.Documents;
 
 namespace Common
 {
-    public class DatabaseInfo
+    public class DbInfo
     {
         public string Id { get; set; }
 

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "dotnet-cosmodb": {
+      "commandName": "Project",
+      "commandLineArgs": "new-db --file \"C:\\Code\\DocumentDbSchemaTest\\DocumentDbTools\\sample-database.json\" --url \"https://tpapp-cosmodb.documents.azure.com:443/\" --authKey \"\""
+    }
+  }
+}

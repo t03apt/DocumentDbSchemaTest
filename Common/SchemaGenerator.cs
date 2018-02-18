@@ -14,7 +14,7 @@ namespace Common
 
             generator.GenerationProviders.Add(new StringEnumGenerationProvider());
 
-            return generator.Generate(typeof(DatabaseInfo));
+            return generator.Generate(typeof(DbInfo));
         }
     }
 }

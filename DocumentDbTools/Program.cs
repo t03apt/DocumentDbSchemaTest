@@ -1,12 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Common;
-using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 
 namespace DocumentDbTools
@@ -30,8 +27,10 @@ namespace DocumentDbTools
                 .AddUserSecrets<Program>()
                 .Build();
 
-            var db = ParseDatabases(GetSample());
-            CreateDatabaseAsync(CosmoDbEndpoint, AuthKey, db).Wait();
+            var dbInfoParser = new DbInfoParser();
+            var db = dbInfoParser.Parse(GetSample());
+            var dbStore = new DbStore(new DocumentClient(new Uri(CosmoDbEndpoint), AuthKey));
+            dbStore.CreateDatabaseAsync(db).Wait();
 
             Console.WriteLine("OK");
         }
@@ -55,31 +54,6 @@ namespace DocumentDbTools
             using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
-            }
-        }
-
-        private static DatabaseInfo ParseDatabases(string json)
-        {
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new DocumentCollectionContractResolver()
-            };
-
-            return JsonConvert.DeserializeObject<DatabaseInfo>(json, serializerSettings);
-        }
-
-        private static async Task CreateDatabaseAsync(string cosmoDbUrl, string authKey, DatabaseInfo databaseInfo)
-        {
-            using (var client = new DocumentClient(new Uri(cosmoDbUrl), authKey))
-            {
-                var database = new Database {Id = databaseInfo.Id};
-
-                database = await client.CreateDatabaseIfNotExistsAsync(database);
-
-                foreach (var collection in databaseInfo.Collections)
-                {
-                    await client.CreateDocumentCollectionIfNotExistsAsync(database, collection);
-                }
             }
         }
     }
